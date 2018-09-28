@@ -2,7 +2,8 @@
 
  Simply check the swift code syntax in Vim
 
-- with [ale](https://github.com/w0rp/ale) plugin
+- for [ale](https://github.com/w0rp/ale) plugin
+- with [swift-syntax-check](https://github.com/tokorom/swift-syntax-check)
 
 ## Installation
 
