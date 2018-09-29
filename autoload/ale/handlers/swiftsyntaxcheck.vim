@@ -8,7 +8,6 @@ function! ale#handlers#swiftsyntaxcheck#HandleOutput(buffer, lines) abort
     for l:match in ale#util#GetMatches(a:lines, l:pattern)
         let l:item = {
         \   'lnum': str2nr(l:match[2]),
-        \   'type': l:match[4] is# 'error' ? 'E' : 'W',
         \   'text': l:match[5],
         \}
 
@@ -16,6 +15,8 @@ function! ale#handlers#swiftsyntaxcheck#HandleOutput(buffer, lines) abort
             let l:item.type = 'E'
         elseif l:match[4] is# 'note'
             let l:item.type = 'I'
+        else
+            let l:item.type = 'W'
         endif
 
         if !empty(l:match[3])
