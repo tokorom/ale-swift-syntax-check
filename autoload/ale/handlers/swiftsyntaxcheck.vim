@@ -7,7 +7,7 @@ function! ale#handlers#swiftsyntaxcheck#HandleOutput(buffer, lines) abort
 
     for l:line in a:lines
         let l:match = matchlist(l:line, l:pattern)
-        if empty(l:match)
+        if empty(l:match) && !empty(l:output)
             let l:item = l:output[-1]
             let l:text = l:item.text
             if type(l:text) == type([])
@@ -15,7 +15,7 @@ function! ale#handlers#swiftsyntaxcheck#HandleOutput(buffer, lines) abort
             else
               let l:item.text = [l:text, l:line]
             endif
-        else
+        elseif !empty(l:match)
             let l:item = {
             \   'lnum': str2nr(l:match[2]),
             \   'text': l:match[5],
