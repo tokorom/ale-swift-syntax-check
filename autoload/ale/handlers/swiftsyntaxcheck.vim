@@ -10,15 +10,18 @@ function! ale#handlers#swiftsyntaxcheck#HandleOutput(buffer, lines) abort
         if empty(l:match) && !empty(l:output)
             let l:item = l:output[-1]
             let l:text = l:item.text
-            if type(l:text) == type([])
-              let l:item.text = add(l:text, l:line)
+            let l:item.text = l:text . "\n" . l:line
+            let l:detail = l:item.detail
+            if type(l:detail) == type([])
+              let l:item.detail = add(l:detail, l:line)
             else
-              let l:item.text = [l:text, l:line]
+              let l:item.detail = [l:detail, l:line]
             endif
         elseif !empty(l:match)
             let l:item = {
             \   'lnum': str2nr(l:match[2]),
             \   'text': l:match[5],
+            \   'detail': l:match[5],
             \}
 
             if l:match[4] is# 'error'
@@ -44,6 +47,7 @@ function! ale#handlers#swiftsyntaxcheck#HandleOutput(buffer, lines) abort
 
             if !empty(l:code_match)
                 let l:item.text = l:code_match[1]
+                let l:item.detail = l:code_match[1]
                 let l:item.code = l:code_match[2]
             endif
 
